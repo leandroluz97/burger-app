@@ -165,7 +165,6 @@ export class ContactData extends Component {
     let form = (
       <form onSubmit={this.orderHandler}>
         {elementArr.map((item) => {
-          console.log()
           return (
             <Input
               key={item.id}

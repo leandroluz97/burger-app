@@ -1,4 +1,4 @@
-import * as actionsTypes from "./actions"
+import * as actionsTypes from "../actions/actionTypes"
 const INGREDIENT_PRICES = {
   salad: 0.5,
   cheese: 0.4,
@@ -7,13 +7,9 @@ const INGREDIENT_PRICES = {
 }
 
 const initalState = {
-  ingredients: {
-    salad: 0,
-    cheese: 0,
-    meat: 0,
-    bacon: 0,
-  },
+  ingredients: null,
   totalPrice: 0,
+  error: false,
 }
 
 const reducer = (state = initalState, action) => {
