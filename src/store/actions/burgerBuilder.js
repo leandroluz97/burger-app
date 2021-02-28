@@ -27,7 +27,7 @@ export const fetchIngrdientsFailed = () => {
     type: actionTypes.FETCH_INGREDIENTS_FAILED,
   }
 }
-export const initIngredient = () => {
+export const initIngredients = () => {
   return (dispatch) => {
     axios
       .get(`/ingredients.json`)
