@@ -152,9 +152,10 @@ export class ContactData extends Component {
     allInputs[inputIdentifier] = inputsUpdated
 
     //check validaty for al input
+
     let formIsValid = true
-    for (let inputIdentifier in inputsUpdated) {
-      formIsValid = inputsUpdated[inputIdentifier].valid && formIsValid
+    for (let inputIdentifier in allInputs) {
+      formIsValid = allInputs[inputIdentifier].valid && formIsValid
     }
 
     this.setState({ orderForm: allInputs, formIsValid: formIsValid })
@@ -201,9 +202,9 @@ export class ContactData extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    ings: state.ingredients,
-    prc: state.totalPrice,
-    loading: state.loading,
+    ings: state.burgerBuilder.ingredients,
+    prc: state.burgerBuilder.totalPrice,
+    loading: state.order.loading,
   }
 }
 const mapDispatchToProps = (dispatch) => {

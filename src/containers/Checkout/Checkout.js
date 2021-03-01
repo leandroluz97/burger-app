@@ -1,12 +1,14 @@
 import React, { Component } from "react"
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary"
-import { Route } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 import ContactData from "./ContactData/ContactData"
 import { connect } from "react-redux"
 
+import * as actions from "../../store/actions/index"
 class Checkout extends Component {
-  /*
   componentDidMount() {
+    //this.props.onInitPurchase()
+    /*
     //get url params
     const query = new URLSearchParams(this.props.location.search)
     const ingredients = {}
@@ -23,8 +25,9 @@ class Checkout extends Component {
 
     //Assign the ingredeints to the state
     this.setState({ ingredients: ingredients, totalPrice: price })
+    */
   }
-*/
+
   checkoutCancelledHandler = () => {
     this.props.history.goBack()
   }
@@ -32,27 +35,40 @@ class Checkout extends Component {
     this.props.history.replace("/checkout/contact-data")
   }
   render() {
-    return (
-      <div>
-        <CheckoutSummary
-          ingredients={this.props.ings}
-          price={this.props.prc}
-          checkoutCancelled={this.checkoutCancelledHandler}
-          checkoutContinued={this.checkoutContinuedHandler}
-        />
+    let summary = <Redirect to='/' />
 
-        <Route
-          path={this.props.match.path + "/contact-data"}
-          component={ContactData}
-        />
-      </div>
-    )
+    if (this.props.ings) {
+      let purchasedRiderect = this.props.purchased ? <Redirect to='/' /> : null
+      summary = (
+        <>
+          {purchasedRiderect}
+          <CheckoutSummary
+            ingredients={this.props.ings}
+            price={this.props.prc}
+            checkoutCancelled={this.checkoutCancelledHandler}
+            checkoutContinued={this.checkoutContinuedHandler}
+          />
+          <Route
+            path={this.props.match.path + "/contact-data"}
+            component={ContactData}
+          />
+        </>
+      )
+    }
+    return <div>{summary}</div>
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    ings: state.ingredients,
+    ings: state.burgerBuilder.ingredients,
+    purchased: state.order.purchased,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onInitPurchase: () => dispatch({ type: actions.purchaseInit() }),
   }
 }
 

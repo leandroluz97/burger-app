@@ -28,8 +28,56 @@ export const purchaseBurger = (orderData) => {
     axios
       .post("/orders.json", orderData)
       .then((response) => {
-        dispatch(purchaseBurgerSuccess(response.data, orderData))
+        dispatch(purchaseBurgerSuccess(response.data.name, orderData))
       })
       .catch((error) => dispatch(purchaseBurgerFail(error)))
+  }
+}
+
+export const purchaseInit = () => {
+  return {
+    type: actionTypes.PURCHASE_INIT,
+  }
+}
+
+export const fetchOrdersSuccess = (orders) => {
+  return {
+    type: actionTypes.FETCH_ORDER_SUCCESS,
+    orders: orders,
+  }
+}
+
+export const fetchOrdersFail = (error) => {
+  return {
+    type: actionTypes.FETCH_ORDER_FAIL,
+    error: error,
+  }
+}
+
+export const fetchOrdersStart = () => {
+  return {
+    type: actionTypes.FETCH_ORDER_START,
+  }
+}
+
+export const fetchOrders = () => {
+  return (dispatch) => {
+    axios
+      .get(`/orders.json`)
+      .then((response) => {
+        dispatch(fetchOrdersStart())
+        const data = response.data
+
+        let arrData = []
+        for (let [key, value] of Object.entries(data)) {
+          //arrKey.push(key)
+          arrData.push({ ...value, id: key })
+        }
+        dispatch(fetchOrdersSuccess(arrData))
+        this.setState({ loading: false, orders: arrData })
+      })
+      .catch((error) => {
+        dispatch(fetchOrdersFail(error))
+      })
   }
 }
