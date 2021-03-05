@@ -1,5 +1,6 @@
 import * as actionsTypes from "../actions/actionTypes"
 import { updateObject } from "../utility"
+
 const INGREDIENT_PRICES = {
   salad: 0.5,
   cheese: 0.4,
@@ -11,6 +12,7 @@ const initalState = {
   ingredients: null,
   totalPrice: 4,
   error: false,
+  building: false,
 }
 
 const reducer = (state = initalState, action) => {
@@ -23,6 +25,7 @@ const reducer = (state = initalState, action) => {
           [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
         },
         totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+        building: true,
       }
     case actionsTypes.REMOVE_INGREDIENT:
       return {
@@ -32,6 +35,7 @@ const reducer = (state = initalState, action) => {
           [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
         },
         totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+        building: true,
       }
     case actionsTypes.SET_INGREDIENTS:
       return {
@@ -44,6 +48,7 @@ const reducer = (state = initalState, action) => {
         },
         error: false,
         totalPrice: 4,
+        building: false,
       }
     case actionsTypes.FETCH_INGREDIENTS_FAILED:
       return {
