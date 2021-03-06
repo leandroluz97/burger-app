@@ -169,7 +169,6 @@ class BurgerBuilder extends Component {
       )
     }
 
-    console.log(this.props.prc)
     return (
       <Auxiliar>
         <Modal
